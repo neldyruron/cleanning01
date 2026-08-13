@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Form Dokumentasi Foto Before-After Cleaning Mold</title>
+  
+  <script src="./Form Dokumentasi Cleanning Mold_online_files/saved_resource"></script>
+  <script src="./Form Dokumentasi Cleanning Mold_online_files/html2pdf.bundle.min.js.download"></script>
+  <script src="./Form Dokumentasi Cleanning Mold_online_files/jspdf.umd.min.js.download"></script>
+  <script src="./Form Dokumentasi Cleanning Mold_online_files/html2canvas.min.js.download"></script>
+
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0mm;
+    }
+    
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    
+    body {
+      background-color: #f3f4f6;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      overflow-x: hidden;
+    }
+    
+    #pdf-content-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: zoom 0.3s ease; 
+    }
+
+    .a4-page {
+      width: 210mm;
+      height: 297mm; /* Memaksa proporsi A4 persis */
+      margin: 15px auto;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      padding: 10mm; /* Margin di dalam kertas agar tidak terpotong printer */
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-sizing: border-box;
+      overflow: hidden;
+      page-break-after: always;
+      page-break-inside: avoid;
+    }
+    
+    .form-border { 
+      border: 2px solid #000; 
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    
+    input[type="text"], input[type="date"], input[type="time"], select {
+      transition: all 0.2s;
+      font-family: Arial, sans-serif;
+      font-size: inherit; /* Ikut ukuran font parent */
+      height: 22px !important; /* Tinggi fix */
+      line-height: 22px !important; /* Line height sama dengan tinggi box agar tulisan pas di tengah */
+      padding: 0 4px !important; /* Hilangkan padding atas bawah karena line-height sudah memusatkan teks */
+      margin: 0 !important;
+      -webkit-appearance: none; 
+      appearance: none;
+      border-radius: 0;
+      vertical-align: middle; /* Pastikan rata tengah */
+    }
+    
+    textarea {
+      font-family: Arial, sans-serif;
+      resize: none;
+      overflow: hidden;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+      background-color: #fef08a !important;
+      outline: none;
+    }
+
+    .img-preview-box {
+      position: relative;
+      width: 100%;
+      min-height: 180px; 
+      border: 1.5px dashed #9ca3af;
+      background-color: #f9fafb;
+      display: flex;
+      flex-direction: row; 
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 6px;
+      border-radius: 4px;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      overflow: hidden;
+    }
+    
+    .img-preview-box.has-images {
+      justify-content: flex-start;
+      align-items: flex-start;
+      border: 1.5px solid #d1d5db;
+    }
+    
+    .img-wrapper-multi {
+      position: relative;
+      width: calc(50% - 4px);
+      height: 160px; 
+      border: 1px solid #9ca3af;
+      background: #e5e7eb; 
+      overflow: hidden; 
+      cursor: grab;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+    }
+    
+    .img-wrapper-multi:active {
+      cursor: grabbing;
+    }
+
+    .img-wrapper-multi img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform-origin: center;
+      pointer-events: none;
+    }
+
+    .btn-delete {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: #ef4444;
+      color: white;
+      border-radius: 50%;
+      width: 22px; 
+      height: 22px;
+      font-size: 13px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      z-index: 10;
+    }
+    
+    .btn-delete:hover { 
+      background: #b91c1c; 
+    }
+
+    @media print {
+      body { 
+        background: white !important; 
+        margin: 0 !important; 
+        padding: 0 !important;
+      }
+      .no-print { display: none !important; }
+      #pdf-content-wrapper { zoom: 1 !important; transform: none !important; margin: 0 !important;}
+      .a4-page { 
+        margin: 0 !important; 
+        box-shadow: none !important; 
+        width: 210mm !important; 
+        height: 297mm !important; /* Proporsional 1 lembar A4 penuh */
+        max-height: 297mm !important;
+        padding: 10mm !important; 
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+        page-break-after: always !important;
+        page-break-inside: avoid !important;
+      }
+      .a4-page:last-child {
+        page-break-after: auto !important;
+      }
+      .a4-page + .a4-page {
+        page-break-before: always !important;
+        break-before: page !important;
+      }
+      input:focus, textarea:focus, select:focus { background-color: transparent !important; }
+      input::placeholder, textarea::placeholder { color: transparent; }
+      .signature-img { display: block !important; }
+      .img-preview-box { border: 1px solid #000 !important; background: white !important; }
+      .img-wrapper-multi { border: 1px solid #000 !important; }
+      .upload-btn-container { display: none !important; }
+      .btn-delete { display: none !important; }
+    }
+    
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255,255,255,0.9);
+      z-index: 9999;
+      flex-direction: column; align-items: center; justify-content: center;
+      font-family: Arial, sans-serif;
+    }
+    
+    .spinner {
+      border: 8px solid #f3f3f3; border-top: 8px solid #2563eb;
+      border-radius: 50%; width: 60px; height: 60px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    .name-input-cell {
+      text-align: center; font-size: 9.5px; font-weight: bold; width: 100%;
+      background: transparent; border: none; outline: none;
+    }
+    
+    .name-input-cell:focus { background-color: #fef08a; }
+
+    .pdf-export-mode-container {
+      width: 800px !important; margin: 0 auto !important; background: white !important; padding: 0 !important;
+      zoom: 1 !important; 
+    }
+    
+    .pdf-export-mode-page {
+      width: 800px !important; height: 1120px !important; margin: 0 !important; padding: 30px !important;
+      box-shadow: none !important; box-sizing: border-box !important;
+    }
+  </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.right-1{right:0.25rem}.top-1{top:0.25rem}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.ml-2{margin-left:0.5rem}.ml-4{margin-left:1rem}.mr-1{margin-right:0.25rem}.mr-1\.5{margin-right:0.375rem}.mr-2{margin-right:0.5rem}.mt-4{margin-top:1rem}.mt-auto{margin-top:auto}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-3\.5{height:0.875rem}.h-\[1px\]{height:1px}.h-\[25px\]{height:25px}.h-\[50px\]{height:50px}.h-full{height:100%}.max-h-\[42px\]{max-height:42px}.max-h-\[45px\]{max-height:45px}.min-h-\[45px\]{min-height:45px}.w-3\.5{width:0.875rem}.w-32{width:8rem}.w-\[16\%\]{width:16%}.w-\[1px\]{width:1px}.w-\[20\%\]{width:20%}.w-\[60\%\]{width:60%}.w-\[95\%\]{width:95%}.w-full{width:100%}.max-w-\[800px\]{max-width:800px}.max-w-full{max-width:100%}.max-w-md{max-width:28rem}.flex-grow{flex-grow:1}.table-fixed{table-layout:fixed}.cursor-crosshair{cursor:crosshair}.cursor-pointer{cursor:pointer}.list-disc{list-style-type:disc}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-x-4{column-gap:1rem}.overflow-hidden{overflow:hidden}.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-lg{border-radius:0.5rem}.rounded-sm{border-radius:0.125rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-b-2{border-bottom-width:2px}.border-r{border-right-width:1px}.border-t{border-top-width:1px}.border-t-2{border-top-width:2px}.border-dashed{border-style:dashed}.border-amber-400{--tw-border-opacity:1;border-color:rgb(251 191 36 / var(--tw-border-opacity, 1))}.border-black{--tw-border-opacity:1;border-color:rgb(0 0 0 / var(--tw-border-opacity, 1))}.border-blue-200{--tw-border-opacity:1;border-color:rgb(191 219 254 / var(--tw-border-opacity, 1))}.border-blue-400{--tw-border-opacity:1;border-color:rgb(96 165 250 / var(--tw-border-opacity, 1))}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235 / var(--tw-border-opacity, 1))}.border-gray-300{--tw-border-opacity:1;border-color:rgb(209 213 219 / var(--tw-border-opacity, 1))}.border-gray-400{--tw-border-opacity:1;border-color:rgb(156 163 175 / var(--tw-border-opacity, 1))}.border-green-300{--tw-border-opacity:1;border-color:rgb(134 239 172 / var(--tw-border-opacity, 1))}.border-red-300{--tw-border-opacity:1;border-color:rgb(252 165 165 / var(--tw-border-opacity, 1))}.bg-\[\#c6d9f1\]{--tw-bg-opacity:1;background-color:rgb(198 217 241 / var(--tw-bg-opacity, 1))}.bg-amber-50\/20{background-color:rgb(255 251 235 / 0.2)}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255 / var(--tw-bg-opacity, 1))}.bg-blue-50\/20{background-color:rgb(239 246 255 / 0.2)}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.bg-gray-200{--tw-bg-opacity:1;background-color:rgb(229 231 235 / var(--tw-bg-opacity, 1))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-gray-50\/30{background-color:rgb(249 250 251 / 0.3)}.bg-gray-600{--tw-bg-opacity:1;background-color:rgb(75 85 99 / var(--tw-bg-opacity, 1))}.bg-green-50\/20{background-color:rgb(240 253 244 / 0.2)}.bg-red-100{--tw-bg-opacity:1;background-color:rgb(254 226 226 / var(--tw-bg-opacity, 1))}.bg-red-50\/20{background-color:rgb(254 242 242 / 0.2)}.bg-transparent{background-color:transparent}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-opacity-60{--tw-bg-opacity:0.6}.object-contain{object-fit:contain}.p-0{padding:0px}.p-1{padding:0.25rem}.p-1\.5{padding:0.375rem}.p-2{padding:0.5rem}.p-2\.5{padding:0.625rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.pb-0\.5{padding-bottom:0.125rem}.pb-1{padding-bottom:0.25rem}.pb-2{padding-bottom:0.5rem}.pt-1{padding-top:0.25rem}.pt-2{padding-top:0.5rem}.pt-3{padding-top:0.75rem}.text-center{text-align:center}.align-top{vertical-align:top}.align-middle{vertical-align:middle}.text-\[10\.5px\]{font-size:10.5px}.text-\[10px\]{font-size:10px}.text-\[8\.5px\]{font-size:8.5px}.text-\[8px\]{font-size:8px}.text-\[9\.5px\]{font-size:9.5px}.text-\[9px\]{font-size:9px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-normal{font-weight:400}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-tight{line-height:1.25}.tracking-wide{letter-spacing:0.025em}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-amber-800{--tw-text-opacity:1;color:rgb(146 64 14 / var(--tw-text-opacity, 1))}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-blue-800{--tw-text-opacity:1;color:rgb(30 64 175 / var(--tw-text-opacity, 1))}.text-blue-900{--tw-text-opacity:1;color:rgb(30 58 138 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity, 1))}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55 / var(--tw-text-opacity, 1))}.text-green-700{--tw-text-opacity:1;color:rgb(21 128 61 / var(--tw-text-opacity, 1))}.text-red-500{--tw-text-opacity:1;color:rgb(239 68 68 / var(--tw-text-opacity, 1))}.text-red-600{--tw-text-opacity:1;color:rgb(220 38 38 / var(--tw-text-opacity, 1))}.text-red-700{--tw-text-opacity:1;color:rgb(185 28 28 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.placeholder-gray-500::placeholder{--tw-placeholder-opacity:1;color:rgb(107 114 128 / var(--tw-placeholder-opacity, 1))}.opacity-0{opacity:0}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-blue-700:hover{--tw-bg-opacity:1;background-color:rgb(29 78 216 / var(--tw-bg-opacity, 1))}.hover\:bg-gray-100:hover{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.hover\:bg-gray-300:hover{--tw-bg-opacity:1;background-color:rgb(209 213 219 / var(--tw-bg-opacity, 1))}.hover\:bg-gray-700:hover{--tw-bg-opacity:1;background-color:rgb(55 65 81 / var(--tw-bg-opacity, 1))}.hover\:bg-yellow-50:hover{--tw-bg-opacity:1;background-color:rgb(254 252 232 / var(--tw-bg-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}.focus\:ring-1:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-blue-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(59 130 246 / var(--tw-ring-opacity, 1))}.group:hover .group-hover\:flex{display:flex}@media (min-width: 640px){.sm\:w-auto{width:auto}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.sm\:flex-row{flex-direction:row}.sm\:items-center{align-items:center}}</style><style>
+    .lampiran-item {
+      position: relative; border: 1px solid #d1d5db; border-radius: 2px; overflow: hidden; 
+      background: #e5e7eb; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; min-height: 80px;
+    }
+    .lampiran-item img {
+      width: 100%; height: 100%; object-fit: contain; cursor: grab; transform-origin: center center;
+    }
+    .lampiran-item img:active { cursor: grabbing; }
+</style>
+
+<style>
+  /* --- LAYOUT CONSTRAINT FIXES --- */
+  /* Prevent flex children from expanding their containers infinitely */
+  .flex-grow {
+      min-height: 0 !important;
+  }
+  /* Force the grid item wrappers to strictly obey the grid row height */
+  .grid-cols-2 > .flex-col {
+      height: 100% !important;
+      min-height: 0 !important;
+  }
+  /* Force the image boxes to consume remaining space without expanding */
+  .img-preview-box {
+      min-height: 0 !important;
+      flex: 1 1 0% !important;
+      height: 100% !important;
+  }
+  /* Absolute position the images inside lampiran-item to break intrinsic aspect ratio pushes */
+  .lampiran-item {
+      min-height: 0 !important;
+      min-width: 0 !important;
+  }
+  .lampiran-item img {
+      position: absolute !important;
+      top: 0; left: 0;
+  }
+</style>
+</head>
+
+<body class="text-[10.5px] text-black">
+
+  <div id="loadingOverlay">
+    <div class="spinner mb-4"></div>
+    <h2 class="text-lg font-bold text-blue-800" id="loadingText">Sedang memproses laporan...</h2>
+    <p class="text-sm text-gray-600">Mohon tunggu, jangan tutup halaman ini.</p>
+  </div>
+
+  <div class="w-[95%] max-w-[800px] mx-auto mt-4 no-print flex flex-col sm:flex-row justify-between items-start sm:items-center bg-blue-50 p-4 border border-blue-200 rounded shadow-sm gap-4">
+    <div>
+      <h3 class="font-bold text-blue-800 text-sm">Form Dokumentasi Foto Before - After Cleaning Mold</h3>
+      <p class="text-xs text-blue-600 mb-1">Versi Standalone (Offline / Non-Google Drive).</p>
+      <ul class="text-xs text-blue-600 list-disc ml-4 grid grid-cols-1 sm:grid-cols-2 gap-x-4">
+        <li><strong>PC:</strong> Scroll Mouse (Zoom), Klik Tahan &amp; Geser.</li>
+        <li><strong>HP:</strong> Cubit 2 Jari (Zoom), Geser 1 Jari.</li>
+      </ul>
+    </div>
+    <div class="flex gap-2 w-full sm:w-auto justify-end">
+      <button onclick="window.print()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2.5 px-4 rounded shadow cursor-pointer text-xs transition flex items-center gap-2 whitespace-nowrap">
+        🖨️ Cetak
+      </button>
+      <button onclick="downloadLaporanPDF()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded shadow cursor-pointer text-xs transition flex items-center gap-2 whitespace-nowrap">
+        💾 Download PDF
+      </button>
+    </div>
+  </div>
+
+  <div id="pdf-content-wrapper" style="zoom: 1;">
+    <div class="a4-page page-container" id="page-1">
+      <form class="w-full form-border bg-white flex flex-col h-full">
+        <div class="flex border-b-2 border-black bg-[#c6d9f1] font-bold">
+          <div class="w-[20%] border-r border-black p-1 flex items-center justify-center text-center bg-white">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 90" class="max-h-[42px] max-w-full">
+              <rect width="260" height="90" fill="#002bb8" rx="3" ry="3"></rect>
+              <line x1="8" y1="16" x2="252" y2="16" stroke="#ffffff" stroke-width="3.5"></line>
+              <text x="130" y="62" font-family="&#39;Arial Black&#39;, Arial, sans-serif" font-weight="900" font-size="46" fill="#ffffff" text-anchor="middle" letter-spacing="2">SANWA</text>
+              <line x1="8" y1="74" x2="252" y2="74" stroke="#ffffff" stroke-width="3.5"></line>
+            </svg>
+          </div>
+          <div class="w-[60%] border-r border-black text-center py-2 flex flex-col items-center justify-center">
+            <span class="text-sm font-bold uppercase tracking-wide">DOKUMENTASI FOTO BEFORE - AFTER CLEANING MOLD</span>
+            <span class="text-[9.5px] font-normal italic">Laporan Visual Condition Mold Before &amp; After Preventive Maintenance</span>
+          </div>
+          <div class="w-[20%] p-1.5 text-[8.5px] flex flex-col justify-center bg-[#c6d9f1]">
+            <div><b>No. Dok</b> : FORM SUPPORT</div>
+            <div><b>Revisi</b> : 00</div>
+            <div><b>Tgl Terbit</b> : 10 Ags 2026</div>
+            <div><b>Halaman</b> : 1 dari 2</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 border-b-2 border-black text-[10px]">
+          <div class="p-2 border-r border-black flex flex-col gap-1.5">
+            <div class="flex items-center"><label class="w-32 font-bold">Part No. / Part Name</label><span class="mr-1">:</span><input type="text" id="input-mold-name" class="flex-grow bg-transparent px-1 font-semibold" placeholder="isi part no. / part name"></div>
+            <div class="flex items-center"><label class="w-32 font-bold">Model</label><span class="mr-1">:</span><input type="text" class="flex-grow bg-transparent px-1" placeholder="isi model part"></div>
+            <div class="flex items-center"><label class="w-32 font-bold">Customer</label><span class="mr-1">:</span><input type="text" class="flex-grow bg-transparent px-1" placeholder="isi nama Customer"></div>
+            <div class="flex items-center"><label class="w-32 font-bold">No. Overhaul</label><span class="mr-1">:</span><input type="text" class="flex-grow bg-transparent px-1" placeholder="isi no. overhaul"></div>
+          </div>
+          <div class="p-2 flex flex-col gap-1.5">
+            <div class="flex items-center"><label class="w-32 font-bold">Start Date &amp; Time</label><span class="mr-1">:</span><input type="date" class="bg-transparent px-1 mr-2 text-[9.5px]"><input type="time" class="bg-transparent px-1 text-[9.5px]"></div>
+            <div class="flex items-center"><label class="w-32 font-bold">End Date &amp; Time</label><span class="mr-1">:</span><input type="date" class="bg-transparent px-1 mr-2 text-[9.5px]"><input type="time" class="bg-transparent px-1 text-[9.5px]"></div>
+            <div class="flex items-center"><label class="w-32 font-bold">Total Shot / Cycle</label><span class="mr-1">:</span><input type="text" class="flex-grow bg-transparent px-1" placeholder="50.000 shot"></div>
+            <div class="flex items-center"><label class="w-32 font-bold">PIC Teknisi</label><span class="mr-1">:</span><input type="text" id="input-pic-teknisi" class="flex-grow bg-transparent px-1" placeholder="Nama PIC Teknisi"></div>
+            <div class="flex items-center"><label class="w-32 font-bold leading-tight">Teknisi / Inspector<br>Double Check</label><span class="mr-1">:</span><input type="text" class="flex-grow bg-transparent px-1" placeholder="Nama Teknisi Inspector"></div>
+          </div>
+        </div>
+
+        <div class="p-2.5 flex flex-col gap-3 flex-grow bg-gray-50/30">
+          <div class="font-bold text-center bg-gray-200 py-1.5 uppercase tracking-wide border border-black text-[10.5px]">BAGIAN 1: FOTO PERBANDINGAN KONDISI CORE &amp; CAVITY (BEFORE VS AFTER)</div>
+          
+          <div class="border border-black p-2.5 bg-white rounded-sm shadow-sm flex-grow flex flex-col">
+            <div class="font-bold text-xs mb-2 pb-1 border-b border-gray-400 text-blue-900 flex justify-between items-center">
+              <span>1. Area Cavity Plate / Insert Cavity</span><span class="text-[9px] font-normal text-gray-600 italic">Pemeriksaan kerak gas, karat, &amp; deposit material</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3 flex-grow">
+              <div class="flex flex-col gap-1.5 border border-red-300 p-2 bg-red-50/20 rounded-sm">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-red-700 text-[10px]">BEFORE</span>
+                  <div class="upload-btn-container">
+                    <label class="cursor-pointer bg-white text-gray-700 px-2 py-1 rounded text-[9px] font-bold border border-gray-400 hover:bg-gray-100 shadow-sm inline-block">
+                      📷 Pilih Foto
+                      <input type="file" multiple="" accept="image/*, image/heic, image/heif" class="absolute opacity-0 w-[1px] h-[1px] overflow-hidden" onchange="handleMultipleImagesForBox(event, &#39;preview-cavity-before&#39;)">
+                    </label>
+                  </div>
+                </div>
+                <div id="preview-cavity-before" class="img-preview-box"><span class="text-gray-400 text-[9px] no-print placeholder-text">[ Upload Foto ]</span></div>
+                <input type="text" class="w-full bg-transparent border-t border-gray-300 pt-1 text-[9px]" placeholder="Keterangan...">
+              </div>
+              
+              <div class="flex flex-col gap-1.5 border border-green-300 p-2 bg-green-50/20 rounded-sm">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-green-700 text-[10px]">AFTER</span>
+                  <div class="upload-btn-container">
+                    <label class="cursor-pointer bg-white text-gray-700 px-2 py-1 rounded text-[9px] font-bold border border-gray-400 hover:bg-gray-100 shadow-sm inline-block">
+                      📷 Pilih Foto
+                      <input type="file" multiple="" accept="image/*, image/heic, image/heif" class="absolute opacity-0 w-[1px] h-[1px] overflow-hidden" onchange="handleMultipleImagesForBox(event, &#39;preview-cavity-after&#39;)">
+                    </label>
+                  </div>
+                </div>
+                <div id="preview-cavity-after" class="img-preview-box"><span class="text-gray-400 text-[9px] no-print placeholder-text">[ Upload Foto ]</span></div>
+                <input type="text" class="w-full bg-transparent border-t border-gray-300 pt-1 text-[9px]" placeholder="Keterangan...">
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-black p-2.5 bg-white rounded-sm shadow-sm flex-grow flex flex-col">
+            <div class="font-bold text-xs mb-2 pb-1 border-b border-gray-400 text-blue-900 flex justify-between items-center">
+              <span>2. Area Core Plate / Slide Core</span><span class="text-[9px] font-normal text-gray-600 italic">Pemeriksaan kebersihan parting line, lifter, &amp; slide way</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3 flex-grow">
+              <div class="flex flex-col gap-1.5 border border-red-300 p-2 bg-red-50/20 rounded-sm">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-red-700 text-[10px]">BEFORE</span>
+                  <div class="upload-btn-container">
+                    <label class="cursor-pointer bg-white text-gray-700 px-2 py-1 rounded text-[9px] font-bold border border-gray-400 hover:bg-gray-100 shadow-sm inline-block">
+                      📷 Pilih Foto
+                      <input type="file" multiple="" accept="image/*, image/heic, image/heif" class="absolute opacity-0 w-[1px] h-[1px] overflow-hidden" onchange="handleMultipleImagesForBox(event, &#39;preview-core-before&#39;)">
+                    </label>
+                  </div>
+                </div>
+                <div id="preview-core-before" class="img-preview-box"><span class="text-gray-400 text-[9px] no-print placeholder-text">[ Upload Foto ]</span></div>
+                <input type="text" class="w-full bg-transparent border-t border-gray-300 pt-1 text-[9px]" placeholder="Keterangan...">
+              </div>
+              <div class="flex flex-col gap-1.5 border border-green-300 p-2 bg-green-50/20 rounded-sm">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-green-700 text-[10px]">AFTER</span>
+                  <div class="upload-btn-container">
+                    <label class="cursor-pointer bg-white text-gray-700 px-2 py-1 rounded text-[9px] font-bold border border-gray-400 hover:bg-gray-100 shadow-sm inline-block">
+                      📷 Pilih Foto
+                      <input type="file" multiple="" accept="image/*, image/heic, image/heif" class="absolute opacity-0 w-[1px] h-[1px] overflow-hidden" onchange="handleMultipleImagesForBox(event, &#39;preview-core-after&#39;)">
+                    </label>
+                  </div>
+                </div>
+                <div id="preview-core-after" class="img-preview-box"><span class="text-gray-400 text-[9px] no-print placeholder-text">[ Upload Foto ]</span></div>
+                <input type="text" class="w-full bg-transparent border-t border-gray-300 pt-1 text-[9px]" placeholder="Keterangan...">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-auto"></div>
+        <div class="border-t border-black p-1 text-center bg-gray-100 text-[8.5px]">Halaman 1 dari 2</div>
+      </form>
+    </div>
+
+    <div class="a4-page page-container" id="page-2">
+      <form class="w-full form-border bg-white flex flex-col h-full">
+        <div class="flex border-b-2 border-black bg-[#c6d9f1] font-bold">
+          <div class="w-[16.66%] border-r border-black p-1 flex items-center justify-center bg-white">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 90" class="max-h-[42px] max-w-full">
+              <rect width="260" height="90" fill="#002bb8" rx="3" ry="3"></rect>
+              <line x1="8" y1="16" x2="252" y2="16" stroke="#ffffff" stroke-width="3.5"></line>
+              <text x="130" y="62" font-family="&#39;Arial Black&#39;, Arial, sans-serif" font-weight="900" font-size="46" fill="#ffffff" text-anchor="middle" letter-spacing="2">SANWA</text>
+              <line x1="8" y1="74" x2="252" y2="74" stroke="#ffffff" stroke-width="3.5"></line>
+            </svg>
+          </div>
+          <div class="w-[60%] border-r border-black text-center py-2 flex flex-col items-center justify-center">
+            <span class="text-sm font-bold uppercase tracking-wide">DOKUMENTASI FOTO BEFORE - AFTER CLEANING MOLD</span>
+          </div>
+          <div class="w-[16.66%] p-1.5 text-[8.5px] flex flex-col justify-center bg-[#c6d9f1]">
+            <div><b>No. Dok</b> : FORM/MTN-IMG/03</div>
+            <div><b>Halaman</b> : 2 dari 2</div>
+          </div>
+        </div>
+
+        <div class="p-2.5 flex flex-col gap-3 flex-grow bg-gray-50/30">
+          <div class="font-bold text-center bg-gray-200 py-1.5 uppercase tracking-wide border border-black text-[10.5px]">BAGIAN 2: SALURAN VENTING &amp; SPERPART / DAMAGE</div>
+
+          <div class="border border-black p-2.5 bg-white rounded-sm shadow-sm flex-grow flex flex-col">
+            <div class="font-bold text-xs mb-2 pb-1 border-b border-gray-400 text-blue-900 flex justify-between items-center">
+              <span>3. Ejector Area</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3 flex-grow">
+              <div class="flex flex-col gap-1.5 border border-red-300 p-2 bg-red-50/20 rounded-sm">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-red-700 text-[10px]">BEFORE</span>
+                  <div class="upload-btn-container">
+                    <label class="cursor-pointer bg-white text-gray-700 px-2 py-1 rounded text-[9px] font-bold border border-gray-400 hover:bg-gray-100 shadow-sm inline-block">
+                      📷 Pilih Foto
+                      <input type="file" multiple="" accept="image/*, image/heic, image/heif" class="absolute opacity-0 w-[1px] h-[1px] overflow-hidden" onchange="handleMultipleImagesForBox(event, &#39;preview-vent-before&#39;)">
+                    </label>
+                  </div>
+                </div>
+                <div id="preview-vent-before" class="img-preview-box"><span class="text-gray-400 text-[9px] no-print placeholder-text">[ Upload Foto ]</span></div>
+                <input type="text" class="w-full bg-transparent border-t border-gray-300 pt-1 text-[9px]" placeholder="Keterangan...">
+              </div>
+              <div class="flex flex-col gap-1.5 border border-green-300 p-2 bg-green-50/20 rounded-sm">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-green-700 text-[10px]">AFTER</span>
+                  <div class="upload-btn-container">
+                    <label class="cursor-pointer bg-white text-gray-700 px-2 py-1 rounded text-[9px] font-bold border border-gray-400 hover:bg-gray-100 shadow-sm inline-block">
+                      📷 Pilih Foto
+                      <input type="file" multiple="" accept="image/*, image/heic, image/heif" class="absolute opacity-0 w-[1px] h-[1px] overflow-hidden" onchange="handleMultipleImagesForBox(event, &#39;preview-vent-after&#39;)">
+                    </label>
+                  </div>
+                </div>
+                <div id="preview-vent-after" class="img-preview-box"><span class="text-gray-400 text-[9px] no-print placeholder-text">[ Upload Foto ]</span></div>
+                <input type="text" class="w-full bg-transparent border-t border-gray-300 pt-1 text-[9px]" placeholder="Keterangan...">
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-black p-2.5 bg-white rounded-sm shadow-sm flex-grow flex flex-col">
+            <div class="font-bold text-xs mb-2 pb-1 border-b border-gray-400 text-blue-900 flex justify-between items-center">
+              <span>4. Temuan Damage / Penggantian Component</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3 flex-grow">
+              <div class="flex flex-col gap-1.5 border border-amber-400 p-2 bg-amber-50/20 rounded-sm">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-amber-800 text-[10px]">PART DAMAGE</span>
+                  <div class="upload-btn-container">
+                    <label class="cursor-pointer bg-white text-gray-700 px-2 py-1 rounded text-[9px] font-bold border border-gray-400 hover:bg-gray-100 shadow-sm inline-block">
+                      📷 Pilih Foto
+                      <input type="file" multiple="" accept="image/*, image/heic, image/heif" class="absolute opacity-0 w-[1px] h-[1px] overflow-hidden" onchange="handleMultipleImagesForBox(event, &#39;preview-damage-before&#39;)">
+                    </label>
+                  </div>
+                </div>
+                <div id="preview-damage-before" class="img-preview-box"><span class="text-gray-400 text-[9px] no-print placeholder-text">[ Upload Foto ]</span></div>
+                <input type="text" class="w-full bg-transparent border-t border-gray-300 pt-1 text-[9px]" placeholder="Keterangan...">
+              </div>
+              <div class="flex flex-col gap-1.5 border border-blue-400 p-2 bg-blue-50/20 rounded-sm">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-blue-800 text-[10px]">PART (BARU)</span>
+                  <div class="upload-btn-container">
+                    <label class="cursor-pointer bg-white text-gray-700 px-2 py-1 rounded text-[9px] font-bold border border-gray-400 hover:bg-gray-100 shadow-sm inline-block">
+                      📷 Pilih Foto
+                      <input type="file" multiple="" accept="image/*, image/heic, image/heif" class="absolute opacity-0 w-[1px] h-[1px] overflow-hidden" onchange="handleMultipleImagesForBox(event, &#39;preview-damage-after&#39;)">
+                    </label>
+                  </div>
+                </div>
+                <div id="preview-damage-after" class="img-preview-box"><span class="text-gray-400 text-[9px] no-print placeholder-text">[ Upload Foto ]</span></div>
+                <input type="text" class="w-full bg-transparent border-t border-gray-300 pt-1 text-[9px]" placeholder="Keterangan...">
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 border border-black bg-white rounded-sm mt-auto">
+            <label class="font-bold text-[10px] text-gray-800 block mb-1">Catatan / Evaluasi Kebersihan &amp; Hasil Preventive Maintenance:</label>
+            <textarea class="w-full bg-transparent outline-none border border-gray-300 p-1.5 text-[9.5px] min-h-[45px] rounded" placeholder="Tuliskan catatan..."></textarea>
+          </div>
+        </div>
+
+        <div class="mt-auto">
+          <table class="w-full text-center bg-white text-[9.5px] table-fixed border-t-2 border-black min-h-[180px]">
+            <thead>
+              <tr class="font-bold border-b border-black bg-gray-100">
+                <th class="border-r border-black p-1 w-[16.66%]">Dibuat Oleh</th>
+                <th class="border-r border-black p-1 w-[16.66%]">Diperiksa Oleh</th>
+                <th class="border-r border-black p-1 w-[16.66%]">Diperiksa Oleh</th>
+                <th class="border-r border-black p-1 w-[16.66%]">Disetujui Oleh</th>
+                <th class="border-r border-black p-1 w-[16.66%]">Disetujui Oleh</th>
+                <th class="p-1 w-[16.66%]">Status Verifikasi Foto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="h-[120px]">
+                <td class="border-r border-black p-0 relative cursor-pointer hover:bg-yellow-50 transition group align-middle" onclick="openSignatureModal(this, &#39;teknisi_p2&#39;)">
+                  <div class="flex flex-col items-center justify-center h-full w-full pointer-events-none">
+                    <span class="text-gray-400 text-[8px] no-print prompt-text">Klik TTD</span>
+                    <img src="file:///D:/Kerjaan/Maintenance/FORM/DIgital/cleanning/Form%20Dokumentasi%20Cleanning%20Mold_online.html" class="hidden max-h-[45px] max-w-full object-contain signature-img">
+                  </div>
+                  <button type="button" class="hidden group-hover:flex no-print absolute top-1 right-1 bg-red-100 text-red-600 rounded px-1 text-[8px]" onclick="clearSignature(event, this.parentElement)">Hapus</button>
+                </td>
+                <td class="border-r border-black p-0 relative cursor-pointer hover:bg-yellow-50 transition group align-middle" onclick="openSignatureModal(this, &#39;staff_p2&#39;)">
+                  <div class="flex flex-col items-center justify-center h-full w-full pointer-events-none">
+                    <span class="text-gray-400 text-[8px] no-print prompt-text">Klik TTD</span>
+                    <img src="file:///D:/Kerjaan/Maintenance/FORM/DIgital/cleanning/Form%20Dokumentasi%20Cleanning%20Mold_online.html" class="hidden max-h-[45px] max-w-full object-contain signature-img">
+                  </div>
+                  <button type="button" class="hidden group-hover:flex no-print absolute top-1 right-1 bg-red-100 text-red-600 rounded px-1 text-[8px]" onclick="clearSignature(event, this.parentElement)">Hapus</button>
+                </td>
+                <td class="border-r border-black p-0 relative cursor-pointer hover:bg-yellow-50 transition group align-middle" onclick="openSignatureModal(this, &#39;spv_p2&#39;)">
+                  <div class="flex flex-col items-center justify-center h-full w-full pointer-events-none">
+                    <span class="text-gray-400 text-[8px] no-print prompt-text">Klik TTD</span>
+                    <img src="file:///D:/Kerjaan/Maintenance/FORM/DIgital/cleanning/Form%20Dokumentasi%20Cleanning%20Mold_online.html" class="hidden max-h-[45px] max-w-full object-contain signature-img">
+                  </div>
+                  <button type="button" class="hidden group-hover:flex no-print absolute top-1 right-1 bg-red-100 text-red-600 rounded px-1 text-[8px]" onclick="clearSignature(event, this.parentElement)">Hapus</button>
+                </td>
+                <td class="border-r border-black p-0 relative cursor-pointer hover:bg-yellow-50 transition group align-middle" onclick="openSignatureModal(this, &#39;mgr_maint_p2&#39;)">
+                  <div class="flex flex-col items-center justify-center h-full w-full pointer-events-none">
+                    <span class="text-gray-400 text-[8px] no-print prompt-text">Klik TTD</span>
+                    <img src="file:///D:/Kerjaan/Maintenance/FORM/DIgital/cleanning/Form%20Dokumentasi%20Cleanning%20Mold_online.html" class="hidden max-h-[45px] max-w-full object-contain signature-img">
+                  </div>
+                  <button type="button" class="hidden group-hover:flex no-print absolute top-1 right-1 bg-red-100 text-red-600 rounded px-1 text-[8px]" onclick="clearSignature(event, this.parentElement)">Hapus</button>
+                </td>
+                <td class="border-r border-black p-0 relative cursor-pointer hover:bg-yellow-50 transition group align-middle" onclick="openSignatureModal(this, &#39;mgr_prod_p2&#39;)">
+                  <div class="flex flex-col items-center justify-center h-full w-full pointer-events-none">
+                    <span class="text-gray-400 text-[8px] no-print prompt-text">Klik TTD</span>
+                    <img src="file:///D:/Kerjaan/Maintenance/FORM/DIgital/cleanning/Form%20Dokumentasi%20Cleanning%20Mold_online.html" class="hidden max-h-[45px] max-w-full object-contain signature-img">
+                  </div>
+                  <button type="button" class="hidden group-hover:flex no-print absolute top-1 right-1 bg-red-100 text-red-600 rounded px-1 text-[8px]" onclick="clearSignature(event, this.parentElement)">Hapus</button>
+                </td>
+                
+                <td rowspan="2" class="p-1 font-bold align-top pt-3">
+                  <span class="text-[8.5px] uppercase text-gray-600 mb-2 block">HASIL VERIFIKASI</span>
+                  <div class="flex flex-col items-start gap-1.5 ml-2">
+                    <label class="cursor-pointer text-[10px] flex items-center text-green-700"><input type="radio" name="photo_status_p2" class="mr-1.5 w-3.5 h-3.5" onclick="toggleRadio(this)"> PASSED</label>
+                    <label class="cursor-pointer text-[10px] flex items-center text-red-700"><input type="radio" name="photo_status_p2" class="mr-1.5 w-3.5 h-3.5" onclick="toggleRadio(this)"> RE-CLEAN</label>
+                  </div>
+                </td>
+              </tr>
+              <tr class="h-[25px]">
+                <td class="border-r border-t border-black p-0 align-top">
+                  <input type="text" id="name_teknisi_p2" class="name-input-cell w-full pt-1 pb-0.5 placeholder-gray-500" placeholder="(Ketik Nama...)">
+                  <div class="font-bold pb-1 text-[9px]">Teknisi Maint. Mold</div>
+                </td>
+                <td class="border-r border-t border-black p-0 align-top">
+                  <input type="text" id="name_staff_p2" class="name-input-cell w-full pt-1 pb-0.5 placeholder-gray-500" placeholder="(Ketik Nama...)">
+                  <div class="font-bold pb-1 text-[9px]">Staff Maint. Mold</div>
+                </td>
+                <td class="border-r border-t border-black p-0 align-top bg-gray-50">
+                  <div id="name_spv_p2" class="w-full pt-1 pb-0.5 font-bold" style="text-decoration: underline;">Neldy R. Ronaldy</div>
+                  <div class="font-bold pb-1 text-[9px]">Spv Maint. Mold</div>
+                </td>
+                <td class="border-r border-t border-black p-0 align-top bg-gray-50">
+                  <div id="name_mgr_maint_p2" class="w-full pt-1 pb-0.5 font-bold" style="text-decoration: underline;">Fajar Wicaksana</div>
+                  <div class="font-bold pb-1 text-[9px]">Manager Maintenance</div>
+                </td>
+                <td class="border-r border-t border-black p-0 align-top bg-gray-50">
+                  <div id="name_mgr_prod_p2" class="w-full pt-1 pb-0.5 font-bold" style="text-decoration: underline;">Agus Sarjono</div>
+                  <div class="font-bold pb-1 text-[9px]">Manager Produksi</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="border-t border-black p-1 text-center bg-gray-100 text-[8.5px]">Halaman 2 dari 2</div>
+      </form>
+    </div>
+  </div> 
+
+  <div id="signatureModal" class="fixed inset-0 bg-black bg-opacity-60 hidden z-50 flex items-center justify-center no-print backdrop-blur-sm">
+    <div class="bg-white p-5 rounded-lg shadow-2xl w-[95%] max-w-md" style="zoom: 1.5;"> 
+      <h2 class="text-base font-bold mb-3 border-b pb-2 text-gray-800">Tanda Tangan Digital</h2>
+      <label class="block text-xs font-bold mb-1 text-gray-700">Nama Penandatangan</label>
+      <input type="text" id="signerName" class="w-full border border-gray-400 rounded p-1.5 mb-3 text-xs outline-none focus:ring-1 focus:ring-blue-500">
+      <label class="block text-xs font-bold mb-1 text-gray-700 flex justify-between items-center">
+        <span>Coretan Tanda Tangan</span><button type="button" class="text-red-500 text-[10px] hover:underline" onclick="clearCanvas()">Hapus Coretan</button>
+      </label>
+      <div class="border-2 border-dashed border-gray-400 rounded bg-gray-50 mb-3 cursor-crosshair">
+        <canvas id="signatureCanvas" width="380" height="140" class="w-full block bg-white" style="touch-action: none;"></canvas>
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-gray-200">
+        <button type="button" class="px-4 py-1.5 bg-gray-200 hover:bg-gray-300 rounded text-xs font-bold" onclick="closeSignatureModal()">Batal</button>
+        <button type="button" class="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-bold" onclick="saveSignature()">Simpan TTD</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // SCRIPT AUTO-ZOOM KHUSUS HP
+    function applyMobileScale() {
+      const wrapper = document.getElementById('pdf-content-wrapper');
+      const screenWidth = window.innerWidth;
+      
+      if (screenWidth < 840) {
+        const zoomLevel = screenWidth / 840;
+        wrapper.style.zoom = zoomLevel;
+      } else {
+        wrapper.style.zoom = 1;
+      }
+    }
+    
+    window.addEventListener('resize', applyMobileScale);
+    window.addEventListener('load', applyMobileScale);
+    applyMobileScale(); 
+
+    // PDF GENERATION
+    async function downloadLaporanPDF() {
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      const loadingText = document.getElementById('loadingText');
+      loadingOverlay.style.display = 'flex';
+      loadingText.innerText = "Mempersiapkan dokumen...";
+
+      document.querySelectorAll('input[type="text"], input[type="date"], input[type="time"]').forEach(el => {
+        el.setAttribute('value', el.value);
+      });
+      document.querySelectorAll('textarea').forEach(el => {
+        el.innerHTML = el.value;
+      });
+
+      var moldName = document.getElementById('input-mold-name').value || "Tanpa_Nama";
+      document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
+
+      const wrapper = document.getElementById('pdf-content-wrapper');
+      const pages = document.querySelectorAll('.page-container');
+      
+      const currentZoom = wrapper.style.zoom;
+      wrapper.style.zoom = 1; 
+      
+      wrapper.classList.add('pdf-export-mode-container');
+      pages.forEach(p => p.classList.add('pdf-export-mode-page'));
+
+      await new Promise(r => setTimeout(r, 500));
+      loadingText.innerText = "Merender Halaman 1...";
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+
+        const canvas1 = await html2canvas(pages[0], { scale: 2, useCORS: true, windowWidth: 800 });
+        const imgData1 = canvas1.toDataURL('image/jpeg', 0.95);
+        pdf.addImage(imgData1, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+
+        loadingText.innerText = "Merender Halaman 2...";
+        const canvas2 = await html2canvas(pages[1], { scale: 2, useCORS: true, windowWidth: 800 });
+        const imgData2 = canvas2.toDataURL('image/jpeg', 0.95);
+        pdf.addPage();
+        pdf.addImage(imgData2, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+
+        loadingText.innerText = "Mengunduh file PDF...";
+        var filename = "Laporan_Maintenance_" + moldName + ".pdf";
+        pdf.save(filename);
+
+        wrapper.style.zoom = currentZoom;
+        wrapper.classList.remove('pdf-export-mode-container');
+        pages.forEach(p => p.classList.remove('pdf-export-mode-page'));
+        document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
+        
+        loadingOverlay.style.display = 'none';
+        alert("✅ Laporan berhasil diunduh sebagai PDF!");
+
+      } catch (error) {
+        loadingOverlay.style.display = 'none';
+        alert("Gagal merender PDF: " + error);
+        
+        wrapper.style.zoom = currentZoom;
+        wrapper.classList.remove('pdf-export-mode-container');
+        pages.forEach(p => p.classList.remove('pdf-export-mode-page'));
+        document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
+      }
+    }
+
+    // FOTO UPLOAD LOGIC
+    function applyInteractivePanZoom(imgElement, rotBtn) {
+      let scale = 1; let tx = 0, ty = 0; let angle = 0; let startX, startY;
+      let isDragging = false; let initialPinchDist = null;
+
+      function updateTransform() { imgElement.style.transform = `translate(${tx}px, ${ty}px) scale(${scale}) rotate(${angle}deg)`; }
+      
+      if(rotBtn) {
+          rotBtn.onclick = function(ev) {
+              ev.stopPropagation();
+              ev.preventDefault();
+              angle = (angle + 90) % 360;
+              updateTransform();
+          };
+      }
+
+      imgElement.addEventListener('wheel', (e) => {
+        e.preventDefault(); 
+        const delta = e.deltaY * -0.003;
+        scale = Math.min(Math.max(1, scale + delta), 8);
+        updateTransform();
+      }, { passive: false });
+
+      imgElement.addEventListener('mousedown', (e) => {
+        e.preventDefault(); isDragging = true;
+        startX = e.clientX - tx; startY = e.clientY - ty;
+      });
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        tx = e.clientX - startX; ty = e.clientY - startY;
+        updateTransform();
+      });
+      window.addEventListener('mouseup', () => { isDragging = false; });
+
+      imgElement.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+          initialPinchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+        } else if (e.touches.length === 1) {
+          isDragging = true; startX = e.touches[0].clientX - tx; startY = e.touches[0].clientY - ty;
+        }
+      }, { passive: false });
+
+      imgElement.addEventListener('touchmove', (e) => {
+        e.preventDefault(); 
+        if (e.touches.length === 2 && initialPinchDist) {
+          const currentDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+          const delta = (currentDist - initialPinchDist) * 0.01;
+          scale = Math.min(Math.max(1, scale + delta), 8);
+          initialPinchDist = currentDist; updateTransform();
+        } else if (e.touches.length === 1 && isDragging) {
+          tx = e.touches[0].clientX - startX; ty = e.touches[0].clientY - startY; updateTransform();
+        }
+      }, { passive: false });
+
+      imgElement.addEventListener('touchend', (e) => {
+        if (e.touches.length < 2) initialPinchDist = null;
+        if (e.touches.length === 0) isDragging = false;
+      });
+    }
+
+    function handleMultipleImagesForBox(event, targetId) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+      const targetBox = document.getElementById(targetId);
+      const placeholder = targetBox.querySelector('.placeholder-text');
+      if (placeholder) placeholder.style.display = 'none';
+
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'lampiran-item';
+          
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          
+          const rotBtn = document.createElement('button');
+          rotBtn.innerHTML = '↻';
+          rotBtn.title = 'Putar Foto';
+          rotBtn.className = 'absolute top-1 left-1 bg-blue-500 hover:bg-blue-700 text-white rounded w-5 h-5 flex items-center justify-center text-[12px] font-bold no-print cursor-pointer shadow-md z-10';
+          
+          applyInteractivePanZoom(img, rotBtn);
+          
+          const delBtn = document.createElement('button');
+          delBtn.innerHTML = '×';
+          delBtn.className = 'absolute top-1 right-1 bg-red-500 hover:bg-red-700 text-white rounded w-5 h-5 flex items-center justify-center text-[10px] font-bold no-print cursor-pointer shadow-md z-10';
+          delBtn.onclick = function(ev) {
+            ev.stopPropagation();
+            wrapper.remove();
+            updateGridLayout(targetBox); 
+            if(targetBox.querySelectorAll('.lampiran-item').length === 0 && placeholder) {
+                placeholder.style.display = '';
+                targetBox.style.display = 'flex';
+                targetBox.style.gap = '8px';
+            }
+          };
+          
+          wrapper.appendChild(img);
+          wrapper.appendChild(delBtn);
+          wrapper.appendChild(rotBtn);
+          targetBox.appendChild(wrapper);
+          updateGridLayout(targetBox); 
+        }
+        reader.readAsDataURL(file);
+      });
+      event.target.value = ''; 
+    }
+
+    function updateGridLayout(gallery) {
+      const items = gallery.querySelectorAll('.lampiran-item');
+      const count = items.length;
+      if (count === 0) return;
+      
+      gallery.style.display = 'grid';
+      gallery.style.gap = '4px';
+      gallery.style.height = '100%';
+      gallery.style.width = '100%';
+      
+      if (count === 1) {
+        gallery.style.gridTemplateColumns = '1fr';
+        gallery.style.gridTemplateRows = '1fr';
+      } else if (count === 2) {
+        gallery.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        gallery.style.gridTemplateRows = '1fr';
+      } else if (count <= 4) {
+        gallery.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        gallery.style.gridTemplateRows = 'repeat(2, 1fr)';
+      } else if (count <= 6) {
+        gallery.style.gridTemplateColumns = 'repeat(3, 1fr)';
+        gallery.style.gridTemplateRows = 'repeat(2, 1fr)';
+      } else if (count <= 9) {
+        gallery.style.gridTemplateColumns = 'repeat(3, 1fr)';
+        gallery.style.gridTemplateRows = 'repeat(3, 1fr)'; 
+      } else {
+        gallery.style.gridTemplateColumns = 'repeat(4, 1fr)';
+        const rows = Math.ceil(count / 4);
+        gallery.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+      }
+    }
+
+    // TANDA TANGAN LOGIC BARU (MEMISAHKAN INPUT NAMA DARI TOMBOL TTD)
+    const modal = document.getElementById('signatureModal');
+    const canvas = document.getElementById('signatureCanvas');
+    const ctx = canvas.getContext('2d');
+    const nameInput = document.getElementById('signerName');
+    let currentActiveCell = null, isDrawingSignature = false, hasSignature = false, lastSigX = 0, lastSigY = 0;
+
+    function openSignatureModal(cellElement, roleId) {
+      currentActiveCell = cellElement;
+      
+      // Ambil nama dari elemen yang terhubung
+      let nameElement = document.getElementById('name_' + roleId);
+      if(nameElement.tagName === 'INPUT') {
+          nameInput.value = nameElement.value.replace('(Ketik Nama...)', '');
+      } else {
+          nameInput.value = nameElement.innerText;
+      }
+      
+      // Beri tanda ke modal, cell mana yang sedang aktif di-edit
+      modal.setAttribute('data-role', roleId);
+
+      clearCanvas();
+      modal.classList.remove('hidden');
+    }
+
+    function closeSignatureModal() { modal.classList.add('hidden'); currentActiveCell = null; }
+
+    function getMousePosForCanvas(evt) {
+      const rect = canvas.getBoundingClientRect();
+      let clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+      let clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
+      return { x: (clientX - rect.left) * (canvas.width / rect.width), y: (clientY - rect.top) * (canvas.height / rect.height) };
+    }
+
+    function startDrawingSignature(e) {
+      e.preventDefault(); isDrawingSignature = true; hasSignature = true;
+      const pos = getMousePosForCanvas(e); lastSigX = pos.x; lastSigY = pos.y;
+      ctx.beginPath(); ctx.fillStyle = '#000'; ctx.arc(lastSigX, lastSigY, 1.5, 0, Math.PI * 2); ctx.fill();
+    }
+
+    function drawSignature(e) {
+      if (!isDrawingSignature) return;
+      e.preventDefault();
+      const pos = getMousePosForCanvas(e);
+      ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#000';
+      ctx.beginPath(); ctx.moveTo(lastSigX, lastSigY); ctx.lineTo(pos.x, pos.y); ctx.stroke();
+      lastSigX = pos.x; lastSigY = pos.y;
+    }
+
+    function stopDrawingSignature() { isDrawingSignature = false; }
+    function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); hasSignature = false; }
+
+    function saveSignature() {
+      if (!currentActiveCell) return;
+      
+      const roleId = modal.getAttribute('data-role');
+      const nameElement = document.getElementById('name_' + roleId);
+      const promptText = currentActiveCell.querySelector('.prompt-text');
+      const imgDisplay = currentActiveCell.querySelector('.signature-img');
+      
+      // Jika yang di-edit adalah input (Teknisi/Staff), update namanya jika diketik di modal
+      if(nameInput.value.trim() !== '' && nameElement.tagName === 'INPUT') {
+        nameElement.value = nameInput.value.trim(); 
+        nameElement.style.textDecoration = 'underline';
+      }
+
+      // Tampilkan coretan TTD
+      if (hasSignature) {
+        imgDisplay.src = canvas.toDataURL('image/png');
+        imgDisplay.classList.remove('hidden');
+        if (promptText) promptText.classList.add('hidden');
+      }
+      closeSignatureModal();
+    }
+
+    function clearSignature(event, cellElement) {
+      event.stopPropagation();
+      cellElement.querySelector('.signature-img').src = '';
+      cellElement.querySelector('.signature-img').classList.add('hidden');
+      const pText = cellElement.querySelector('.prompt-text'); 
+      if(pText) pText.classList.remove('hidden');
+    }
+
+    canvas.addEventListener('mousedown', startDrawingSignature); canvas.addEventListener('mousemove', drawSignature);
+    canvas.addEventListener('mouseup', stopDrawingSignature); canvas.addEventListener('mouseout', stopDrawingSignature);
+    canvas.addEventListener('touchstart', startDrawingSignature, {passive: false}); canvas.addEventListener('touchmove', drawSignature, {passive: false});
+    canvas.addEventListener('touchend', stopDrawingSignature); canvas.addEventListener('touchcancel', stopDrawingSignature);
+
+    // FIX RADIO BUTTON AGAR PAGE 1 DAN 2 TIDAK SALING BERHUBUNGAN
+    let lastCheckedRadio = {};
+    function toggleRadio(radio) {
+      const name = radio.name;
+      if (lastCheckedRadio[name] === radio) { 
+        radio.checked = false; 
+        lastCheckedRadio[name] = null; 
+      }
+      else { 
+        lastCheckedRadio[name] = radio; 
+      }
+    }
+  </script>
+
+</body></html>
