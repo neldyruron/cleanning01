@@ -12,7 +12,7 @@
   <style>
     @page {
       size: A4 portrait;
-      margin: 0mm;
+      margin: 5mm;
     }
     
     *, *::before, *::after {
@@ -168,12 +168,13 @@
       .no-print { display: none !important; }
       #pdf-content-wrapper { zoom: 1 !important; transform: none !important; margin: 0 !important;}
       .a4-page { 
-        margin: 0 !important; 
+        margin: 0 auto !important; 
         box-shadow: none !important; 
-        width: 210mm !important; 
-        height: 297mm !important; /* Proporsional 1 lembar A4 penuh */
-        max-height: 297mm !important;
-        padding: 10mm !important; 
+        width: 100% !important; 
+        max-width: 195mm !important; /* Menghindari overflow width di iOS */
+        height: 265mm !important; /* Kurangi drastis dari 297mm agar tidak ditabrak header/footer bawaan Safari */
+        max-height: 265mm !important;
+        padding: 2mm !important; 
         overflow: hidden !important;
         box-sizing: border-box !important;
         page-break-after: always !important;
@@ -271,9 +272,11 @@
 
 <style>
   /* --- FIX SAFARI iOS LAYOUT CRUSH --- */
-  .a4-page {
-      min-width: 210mm !important;
-      max-width: 210mm !important;
+  @media screen {
+      .a4-page {
+          min-width: 210mm !important;
+          max-width: 210mm !important;
+      }
   }
   input, select, textarea {
       min-width: 0 !important; /* Mencegah input memonopoli ukuran di Safari */
