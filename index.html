@@ -204,21 +204,6 @@
         flex-direction: column !important;
       }
       
-      /* PERBESAR FOTO, KALAHKAN KETERANGAN */
-      .img-preview-box { 
-        min-height: 140px !important; /* Tinggi minimal foto dinaikkan */
-        height: auto !important; 
-        max-height: none !important; /* Hilangkan batasan tinggi */
-        flex-grow: 1 !important; /* Biarkan foto mengambil sisa ruang yang besar */
-      }
-      
-      /* Keterangan input dibuat fixed kecil */
-      input[type="text"][placeholder="Keterangan..."] {
-        height: 20px !important;
-        min-height: 20px !important;
-        flex-shrink: 0 !important; /* Jangan biarkan input keterangan membesar */
-      }
-
       /* Kembalikan ukuran wajar TTD */
       .min-h-\[120px\] { min-height: 100px !important; }
       .h-\[90px\] { height: 70px !important; }
@@ -321,7 +306,34 @@
       white-space: nowrap !important; /* Paksa tombol upload tidak turun baris */
   }
 </style>
+
+<style>
+  /* --- PAKSA FOTO MAKSIMAL & KETERANGAN 1 BARIS --- */
+  .grid-cols-2 > .flex-col {
+      display: flex !important;
+      flex-direction: column !important;
+      height: 100% !important;
+  }
+  .img-preview-box {
+      flex: 1 1 0% !important; /* Paksa foto mengambil seluruh sisa tinggi */
+      height: 100% !important;
+      min-height: 120px !important; /* Jaminan minimal tinggi foto */
+      max-height: none !important;
+  }
+  input[placeholder="Keterangan..."] {
+      flex: 0 0 15px !important; /* Paksa keterangan HANYA 15px (1 baris mutlak) */
+      height: 15px !important;
+      min-height: 15px !important;
+      max-height: 15px !important;
+      line-height: 15px !important;
+      padding: 0 2px !important;
+      margin: 2px 0 0 0 !important;
+      font-size: 8.5px !important;
+      border-top: 1px solid #d1d5db !important;
+  }
+</style>
 </head>
+
 
 
 <body class="text-[10.5px] text-black">
