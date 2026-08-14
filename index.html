@@ -159,10 +159,10 @@
       background: #b91c1c; 
     }
 
-                    @media print {
+                        @media print {
       @page { 
         size: A4 portrait; 
-        margin: 0 !important; /* Wajib 0 agar iOS tidak menambahkan margin kertas ekstra yang memicu blank page */
+        margin: 0 !important; 
       }
       html, body {
         margin: 0 !important; 
@@ -182,18 +182,19 @@
         margin: 0 auto !important; 
         box-shadow: none !important; 
         width: 100% !important; 
-        height: 240mm !important; /* UKURAN SUPER AMAN: Dipangkas jauh dari 297mm (A4) untuk memberi ruang Header/Footer Safari */
-        max-height: 240mm !important;
+        /* PANGKAS TINGGI JADI SANGAT KECIL (215mm) UNTUK MENGHINDARI OVERFLOW 1 BARIS DI IOS */
+        height: 215mm !important; 
+        max-height: 215mm !important;
         padding: 4mm !important; 
         overflow: hidden !important; 
         box-sizing: border-box !important;
         page-break-inside: avoid !important; 
-        page-break-after: always !important; /* Selalu pisah halaman per form */
+        page-break-after: always !important; 
         page-break-before: auto !important;
         border: none !important;
       }
       .a4-page:last-of-type {
-        page-break-after: avoid !important; /* JANGAN pisah halaman di form terakhir agar tidak timbul halaman kosong */
+        page-break-after: avoid !important; 
       }
       .a4-page + .a4-page {
         page-break-before: auto !important;
@@ -205,14 +206,23 @@
         overflow: hidden !important;
       }
       
-      /* PENGURANGAN AREA FOTO KHUSUS SAAT DICETAK (REQUEST IOS) */
+      /* PENGURANGAN AREA FOTO & TTD SECARA EKSTREM KHUSUS CETAK IOS */
       .img-preview-box { 
         min-height: 0 !important; 
-        max-height: 110px !important; /* Pangkas tinggi area foto secara paksa agar form tidak melar ke bawah */
-        height: 110px !important;
+        max-height: 75px !important; 
+        height: 75px !important;
       }
-      /* Pangkas sedikit padding di area body foto agar makin hemat tempat */
-      .p-2\.5 { padding: 5px !important; }
+      .p-2\.5 { padding: 4px !important; }
+      .p-2 { padding: 4px !important; }
+      
+      .min-h-\[120px\] { min-height: 60px !important; }
+      .h-\[90px\] { height: 40px !important; }
+      
+      /* Perkecil jarak dan ruang bernapas agar makin padat */
+      .gap-3 { gap: 4px !important; }
+      .gap-1\.5 { gap: 2px !important; }
+      .py-2 { padding-top: 4px !important; padding-bottom: 4px !important; }
+      .py-1\.5 { padding-top: 2px !important; padding-bottom: 2px !important; }
       
       table { page-break-inside: avoid !important; }
       
