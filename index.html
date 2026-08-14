@@ -159,44 +159,50 @@
       background: #b91c1c; 
     }
 
-        @media print {
+            @media print {
       @page { 
         size: A4 portrait; 
-        margin: 0mm !important; /* Margin 0 di @page mematikan header/footer Safari */
+        margin: 0 !important; /* Wajib 0 agar tidak bertabrakan dengan padding body */
       }
       html, body {
         margin: 0 !important; 
         padding: 0 !important;
         background: white !important;
+        width: 100% !important;
+        height: 100% !important;
       }
       .no-print { display: none !important; }
       #pdf-content-wrapper { 
         zoom: 1 !important; 
         transform: none !important; 
         margin: 0 !important;
-        display: block !important; /* Hindari flex di level wrapper saat print */
+        padding: 0 !important;
+        display: block !important;
+        width: 100% !important;
       }
       .a4-page { 
         margin: 0 !important; 
         box-shadow: none !important; 
-        width: 210mm !important; 
-        height: 296mm !important; /* Proporsi presisi 1 lembar A4 */
-        max-height: 296mm !important;
-        padding: 8mm !important; 
-        overflow: hidden !important;
+        width: 100% !important; 
+        height: 275mm !important; /* Gunakan batas super aman untuk A4 (297mm) */
+        max-height: 275mm !important;
+        padding: 5mm !important; 
+        overflow: hidden !important; /* KUNCI: Cegah ada elemen tembus yang membuat halaman ekstra */
         box-sizing: border-box !important;
         page-break-after: always !important;
         page-break-inside: avoid !important;
+        border: none !important;
       }
-      .a4-page:last-child {
-        page-break-after: auto !important;
+      .a4-page:last-of-type {
+        page-break-after: avoid !important; /* Paksa agar lembar ke-2 tidak nyetak halaman kosong ke-3 */
       }
       .form-border {
         height: 100% !important;
         max-height: 100% !important;
+        border: 2px solid #000 !important;
       }
       /* Mencegah gambar/tabel membesar di luar kendali */
-      .img-preview-box { min-height: 80px !important; }
+      .img-preview-box { min-height: 60px !important; }
       table { page-break-inside: avoid !important; }
       
       input:focus, textarea:focus, select:focus { background-color: transparent !important; }
