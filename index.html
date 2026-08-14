@@ -268,7 +268,22 @@
       top: 0; left: 0;
   }
 </style>
+
+<style>
+  /* --- FIX SAFARI iOS LAYOUT CRUSH --- */
+  .a4-page {
+      min-width: 210mm !important;
+      max-width: 210mm !important;
+  }
+  input, select, textarea {
+      min-width: 0 !important; /* Mencegah input memonopoli ukuran di Safari */
+  }
+  .upload-btn-container label {
+      white-space: nowrap !important; /* Paksa tombol upload tidak turun baris */
+  }
+</style>
 </head>
+
 
 <body class="text-[10.5px] text-black">
 
@@ -622,13 +637,17 @@
     // SCRIPT AUTO-ZOOM KHUSUS HP
     function applyMobileScale() {
       const wrapper = document.getElementById('pdf-content-wrapper');
-      const screenWidth = window.innerWidth;
+      // Reset zoom css karena Safari iOS sangat bug dengan zoom + flexbox
+      wrapper.style.zoom = 1; 
+
+      const screenWidth = window.screen.width || window.innerWidth;
+      const metaViewport = document.querySelector('meta[name="viewport"]');
       
-      if (screenWidth < 840) {
-        const zoomLevel = screenWidth / 840;
-        wrapper.style.zoom = zoomLevel;
+      if (screenWidth < 850) {
+        // Paksa viewport HP memberi kanvas virtual 850px agar ukuran A4 (210mm) tidak tergencet
+        metaViewport.setAttribute('content', 'width=850, user-scalable=yes');
       } else {
-        wrapper.style.zoom = 1;
+        metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0');
       }
     }
     
