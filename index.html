@@ -159,50 +159,50 @@
       background: #b91c1c; 
     }
 
-            @media print {
+                @media print {
       @page { 
         size: A4 portrait; 
-        margin: 0 !important; /* Wajib 0 agar tidak bertabrakan dengan padding body */
+        margin: 5mm !important; /* Beri ruang aman margin iOS */
       }
       html, body {
         margin: 0 !important; 
         padding: 0 !important;
         background: white !important;
-        width: 100% !important;
-        height: 100% !important;
+        height: auto !important;
+        width: auto !important;
       }
       .no-print { display: none !important; }
       #pdf-content-wrapper { 
-        zoom: 1 !important; 
+        zoom: 0.94 !important; /* KUNCI: Perkecil seluruh view 6% agar border tidak menyentuh limit kertas iOS */
         transform: none !important; 
         margin: 0 !important;
         padding: 0 !important;
         display: block !important;
-        width: 100% !important;
       }
       .a4-page { 
-        margin: 0 !important; 
+        margin: 0 auto 15mm auto !important; /* Beri jarak alami antar div */
         box-shadow: none !important; 
         width: 100% !important; 
-        height: 275mm !important; /* Gunakan batas super aman untuk A4 (297mm) */
-        max-height: 275mm !important;
-        padding: 5mm !important; 
-        overflow: hidden !important; /* KUNCI: Cegah ada elemen tembus yang membuat halaman ekstra */
+        height: 250mm !important; /* Tinggi 250mm memastikan form memakan hampir 1 halaman penuh (A4=297mm) */
+        max-height: 250mm !important;
+        padding: 2mm !important; 
+        overflow: hidden !important; 
         box-sizing: border-box !important;
-        page-break-after: always !important;
-        page-break-inside: avoid !important;
+        page-break-inside: avoid !important; /* Larang iOS memotong isi form */
+        page-break-after: auto !important; /* JANGAN ALWAYS: Biarkan iOS memindahkannya secara natural */
+        page-break-before: auto !important;
         border: none !important;
       }
-      .a4-page:last-of-type {
-        page-break-after: avoid !important; /* Paksa agar lembar ke-2 tidak nyetak halaman kosong ke-3 */
+      .a4-page + .a4-page {
+        page-break-before: auto !important;
       }
       .form-border {
         height: 100% !important;
         max-height: 100% !important;
         border: 2px solid #000 !important;
+        overflow: hidden !important;
       }
-      /* Mencegah gambar/tabel membesar di luar kendali */
-      .img-preview-box { min-height: 60px !important; }
+      .img-preview-box { min-height: 40px !important; }
       table { page-break-inside: avoid !important; }
       
       input:focus, textarea:focus, select:focus { background-color: transparent !important; }
